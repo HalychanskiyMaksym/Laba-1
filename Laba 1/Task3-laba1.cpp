@@ -1,73 +1,89 @@
 #include <iostream>
 #include <vector>
-#include <limits> 
+#include <limits> // Для використання констант числових меж
 
 int main() {
-    double a, b;
-    int n;
-    
+    double a, b; // Межі діапазону
+    int n;       // Кількість елементів у масиві
+
+    // Введення меж діапазону aі b
     std::cout << "Введіть значення a і b (a < b): ";
     std::cin >> a >> b;
 
     if (a >= b) {
+        // Перевірка на коректність введення числа 
         std::cout << "a повинно бути меншим за b\n";
-        return 1;
+        return 1; // Завершення програми з кодом помилки
     }
 
+    // Введення кількості елементів масиву n
     std::cout << "Введіть кількість елементів масиву n (n <= 200): ";
     std::cin >> n;
 
     if (n > 200 || n <= 0) {
+        // Перевірка введення: n в допустимих межах
         std::cout << "n повинно бути від 1 до 200\n";
-        return 1;
+        return 1; // Завершення програми з кодом помилки
     }
 
+    // Створення вектора для зберігання елементів масиву
     std::vector<double> X(n);
     std::cout << "Введіть елементи масиву X:\n";
     for (int i = 0; i < n; ++i) {
+        // Зчитування елементів масиву
         std::cin >> X[i];
     }
 
-    double sum = 0;                      
-    double product = 1;                  
-    bool product_exists = false;         
-    double max_in_range = -std::numeric_limits<double>::infinity(); 
-    double min_in_range = std::numeric_limits<double>::infinity();  
-    bool range_exists = false;           
+    // Запуск змінних для обчислення
+    double sum = 0;                      // Сума чисел, менших за a
+    double product = 1;                  // Добуток чисел, більших за b
+    bool product_exists = false;         //  перевірка наявності чисел більших за b
+    double max_in_range = -std::numeric_limits<double>::infinity(); // Максимум у діапазоні  a b 
+    double min_in_range = std::numeric_limits<double>::infinity();  // Мінімум у діапазоні a b
+    bool range_exists = false;           // Перевірка чи є числа у діапазроні a b
 
+    // Перебір елементів масиву
     for (int i = 0; i < n; ++i) {
         if (X[i] < a) {
-            sum += X[i];                 
+            // Додавання до суми,якщо елемент менший за a
+            sum += X[i];
         }
         if (X[i] > b) {
-            product *= X[i];             
-            product_exists = true;       
+            // Множення на добуток якщо елемент більший за b
+            product *= X[i];
+            product_exists = true; //  Перевірка 
         }
         if (X[i] >= a && X[i] <= b) {
+            // Перевірка, чи елемент входить у діапазон a b
             if (X[i] > max_in_range) {
-                max_in_range = X[i];     
+                max_in_range = X[i]; // Оновлення максимуму
             }
             if (X[i] < min_in_range) {
-                min_in_range = X[i];     
+                min_in_range = X[i]; // Оновлення мінімуму
             }
-            range_exists = true;         
+            range_exists = true; // перевірка на наявність чисел у діапазоні
         }
     }
 
+    // Виведення результатів обчислень
     std::cout << "Сума чисел менших за " << a << ": " << sum << std::endl;
-    
+
     if (product_exists) {
+        // Виведення добутку, якщо є числа більші за b
         std::cout << "Добуток чисел більших за " << b << ": " << product << std::endl;
     } else {
+        // Повідомлення якщо таких чисел немає
         std::cout << "Немає чисел, більших за " << b << "." << std::endl;
     }
 
     if (range_exists) {
+        // Виведення максимуму та мінімуму якщо є числа у діапазоні a b
         std::cout << "Максимальне число у діапазоні [" << a << ", " << b << "]: " << max_in_range << std::endl;
         std::cout << "Мінімальне число у діапазоні [" << a << ", " << b << "]: " << min_in_range << std::endl;
     } else {
+        // Повідомлення якщо таких чисел немає
         std::cout << "Немає чисел у діапазоні [" << a << ", " << b << "]." << std::endl;
     }
 
-    return 0;
+    return 0; // кінець
 }
